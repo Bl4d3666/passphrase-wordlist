@@ -18,7 +18,7 @@ permissions:
   id-token: 'write'
   
 jobs:
-  configurator:
+  Download:
     runs-on: ubuntu-latest
     steps:
     - name: Download Scripts
@@ -37,6 +37,13 @@ jobs:
       run: |
        cat ./*.txt | sort -u > raw.txt
        python3 ./cleanup.py raw.txt passphrases.txt
+    - name: Create Gitbun Release  
+      uses: svenstaro/create-release@v1
+      env:
+         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN}}
+      with:
+        tag_name: ${{ github.run_number }}
+        release_name: ${{ github.run_number }}
     - name: Upload file to release
       uses: svenstaro/upload-release-action@v2
       with:
