@@ -1,0 +1,65 @@
+# This is a basic workflow to help you get started with Actions
+
+name: CI
+
+# Controls when the workflow will run
+on:
+  # Triggers the workflow on push or pull request events but only for the "main" branch
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
+
+jobs:
+  configurator:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Download IMB Titles
+      run: |
+        wget https://datasets.imdbws.com/title.basics.tsv.gz
+        gunzip title.basics.tsv.gz
+        rm -rf title.basics.tsv.gz
+        cat title.basics.tsv | awk -F '\t' '{print $3}' > ./imdb-titles-$(date +%Y-%m-%d).txt
+        rm title.basics.tsv
+    - name: Wikipedia article titles & category names
+      run: |   
+        wget https://dumps.wikimedia.org/enwiki/latest/enwiki-latest-pages-articles-multistream-index.txt.bz2
+        gunzip2 ./enwiki-latest-pages-articles-multistream-index.txt.bz2
+        cat ./enwiki-latest-pages-articles-multistream-index.txt | cut -d: -f 3 > ./wikipedia-$(date +%Y-%m-%d).txt
+        rm enwiki-latest-pages-articles-multistream-index.txt
+    - name: Wiktionary titles
+      run: |   
+        wget https://dumps.wikimedia.org/enwiktionary/latest/enwiktionary-latest-all-titles.gz
+        gunzip enwiktionary-latest-all-titles.gz
+        cat enwiktionary-latest-all-titles | awk -F '\t' '{print $2}' > ./wiktionary-$(date +%Y-%m-%d).txt
+        rm enwiktionary-latest-all-titles
+    - name: Urban Dictionary
+      run: |   
+        git clone https://github.com/initstring/urban-dictionary-word-list
+        cd urban-dictionary-word-list
+        touch urban-dictionary-$(date +%Y-%m-%d).txt
+        python3 ./main.py --out urban-dictionary-$(date +%Y-%m-%d).txt
+    - name: Know Your Meme
+      run: |  
+        python3 /utilities/kym_scrape.py
+        mv memes.txt ./know-your-meme-$(date +%Y-%m-%d).txt
+    - name: Global POI dataset
+      run: | 
+        wget http://download.geonames.org/export/dump/allCountries.zip
+        unzip ./allCountries.zip
+        cat allCountries.txt | awk -F '\t' '{print $3}' > ./global-poi-$(date +%Y-%m-%d).txt
+        rm allCountries.zip
+        rm allCountries.txt      
+    - name: Billboard charts
+      run: | 
+       git clone https://github.com/initstring/umdmusic-downloader
+       cd umdmusic-downloader
+       pip3 install -r ./requirements.txt
+       python3 ./downloader.py
+       cat ./us_billboard.psv | cut -d "|" -f 5 > ./billboard-titles-$(date +%Y-%m-%d).txt
+       cat ./us_billboard.psv | cut -d "|" -f 6 | sed "s/ featuring /\n/g" > ./billboard-artists-$(date +%Y-%m-%d).txt
+       rm ./us_billboard.psv
+      
