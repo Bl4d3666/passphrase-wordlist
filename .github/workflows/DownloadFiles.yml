@@ -41,15 +41,6 @@ jobs:
         cat allCountries.txt | awk -F '\t' '{print $3}' > ./global-poi-$(date +%Y-%m-%d).txt
         rm allCountries.zip
         rm allCountries.txt      
-    - name: Billboard charts
-      run: | 
-       git clone https://github.com/initstring/umdmusic-downloader
-       cd umdmusic-downloader
-       pip3 install -r ./requirements.txt
-       python3 ./downloader.py
-       cat ./us_billboard.psv | cut -d "|" -f 5 > ./billboard-titles-$(date +%Y-%m-%d).txt
-       cat ./us_billboard.psv | cut -d "|" -f 6 | sed "s/ featuring /\n/g" > ./billboard-artists-$(date +%Y-%m-%d).txt
-       rm ./us_billboard.psv
     - name: Combining
       run: |
        cat ./*.txt | sort -u > raw.txt
