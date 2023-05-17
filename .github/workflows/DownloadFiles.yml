@@ -34,10 +34,6 @@ jobs:
         gunzip enwiktionary-latest-all-titles.gz
         cat enwiktionary-latest-all-titles | awk -F '\t' '{print $2}' > ./wiktionary-$(date +%Y-%m-%d).txt
         rm enwiktionary-latest-all-titles
-    - name: Know Your Meme
-      run: |  
-        python3 ./kym_scrape.py
-        mv memes.txt ./know-your-meme-$(date +%Y-%m-%d).txt
     - name: Global POI dataset
       run: | 
         wget http://download.geonames.org/export/dump/allCountries.zip
