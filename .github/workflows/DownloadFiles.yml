@@ -55,4 +55,4 @@ jobs:
         asset_name: mything
         tag: ${{ github.ref }}
         overwrite: true
-        files: passphrases.txt
+        file: passphrases.txt
