@@ -36,7 +36,7 @@ jobs:
         rm enwiktionary-latest-all-titles
     - name: Know Your Meme
       run: |  
-        python3 /utilities/kym_scrape.py
+        python3 ./kym_scrape.py
         mv memes.txt ./know-your-meme-$(date +%Y-%m-%d).txt
     - name: Global POI dataset
       run: | 
