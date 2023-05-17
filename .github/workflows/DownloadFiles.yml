@@ -17,7 +17,7 @@ jobs:
   configurator:
     runs-on: ubuntu-latest
     steps:
-    - name: Download IMB Titles
+    - name: Download Scripts
       run: |
         wget https://raw.githubusercontent.com/initstring/passphrase-wordlist/master/utilities/cleanup.py
         wget https://github.com/initstring/passphrase-wordlist/blob/master/utilities/kym_scrape.py
@@ -39,6 +39,7 @@ jobs:
         git clone https://github.com/initstring/urban-dictionary-word-list
         cd urban-dictionary-word-list
         touch urban-dictionary-$(date +%Y-%m-%d).txt
+        pip3 install bs4 
         python3 ./main.py --out urban-dictionary-$(date +%Y-%m-%d).txt
     - name: Know Your Meme
       run: |  
