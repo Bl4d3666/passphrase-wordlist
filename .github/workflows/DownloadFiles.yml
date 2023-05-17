@@ -42,7 +42,7 @@ jobs:
         cat allCountries.txt | awk -F '\t' '{print $3}' > ./global-poi-$(date +%Y-%m-%d).txt
         rm allCountries.zip
         rm allCountries.txt
-       
+  
     - name: Combining
       run: |
        cat ./*.txt | sort -u > raw.txt
@@ -52,8 +52,6 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v3
-      - name: Release
-        uses: softprops/action-gh-release@v1
       - name: Release
         uses: softprops/action-gh-release@v1
         if: startsWith(github.ref, 'refs/tags/')
