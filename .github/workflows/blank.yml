@@ -20,7 +20,7 @@ jobs:
     - name: configure Helm 3
       run: |
         wget https://datasets.imdbws.com/title.basics.tsv.gz
-        tar -xvzf title.basics.tsv.gz
+        gunzip title.basics.tsv.gz
         rm -rf title.basics.tsv.gz
         cat title.basics.tsv | awk -F '\t' '{print $3}' > ./imdb-titles-$(date +%Y-%m-%d).txt
         rm title.basics.tsv
