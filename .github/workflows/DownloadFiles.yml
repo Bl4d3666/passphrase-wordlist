@@ -34,13 +34,6 @@ jobs:
         gunzip enwiktionary-latest-all-titles.gz
         cat enwiktionary-latest-all-titles | awk -F '\t' '{print $2}' > ./wiktionary-$(date +%Y-%m-%d).txt
         rm enwiktionary-latest-all-titles
-    - name: Urban Dictionary
-      run: |   
-        git clone https://github.com/initstring/urban-dictionary-word-list
-        cd urban-dictionary-word-list
-        touch urban-dictionary-$(date +%Y-%m-%d).txt
-        pip3 install bs4 
-        python3 ./main.py --out urban-dictionary-$(date +%Y-%m-%d).txt
     - name: Know Your Meme
       run: |  
         python3 /utilities/kym_scrape.py
@@ -61,4 +54,14 @@ jobs:
        cat ./us_billboard.psv | cut -d "|" -f 5 > ./billboard-titles-$(date +%Y-%m-%d).txt
        cat ./us_billboard.psv | cut -d "|" -f 6 | sed "s/ featuring /\n/g" > ./billboard-artists-$(date +%Y-%m-%d).txt
        rm ./us_billboard.psv
-      
+    - name: Combining
+      run: |
+       cat ./*.txt | sort -u > raw.txt
+       python3 ./cleanup.py raw.txt passphrases.txt
+    - name: Checkout
+      uses: actions/checkout@v3
+    - name: Release
+      uses: softprops/action-gh-release@v1
+      if: startsWith(github.ref, 'refs/tags/')
+      with:
+        files: passphrases.txt
