@@ -20,7 +20,7 @@ jobs:
     - name: Download Scripts
       run: |
         wget https://raw.githubusercontent.com/initstring/passphrase-wordlist/master/utilities/cleanup.py
-        wget https://github.com/initstring/passphrase-wordlist/blob/master/utilities/kym_scrape.py
+        wget https://raw.githubusercontent.com/initstring/passphrase-wordlist/master/utilities/kym_scrape.py
     - name: Download IMB Titles
       run: |
         wget https://datasets.imdbws.com/title.basics.tsv.gz
