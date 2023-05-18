@@ -7,7 +7,7 @@ on:
   # Triggers the workflow on push or pull request events but only for the "main" branch
   push:
     tags:
-      - "v*.*.*"  
+      - "*"  
     branches: [ "main" ]
   pull_request:
     branches: [ "main" ]
@@ -22,10 +22,12 @@ jobs:
   Download:
     runs-on: ubuntu-latest
     steps:
+    
     - name: Download Scripts
       run: |
         wget https://raw.githubusercontent.com/initstring/passphrase-wordlist/master/utilities/cleanup.py
         wget https://raw.githubusercontent.com/initstring/passphrase-wordlist/master/utilities/kym_scrape.py
+    
     - name: Download IMB Titles
       run: |
         wget https://datasets.imdbws.com/title.basics.tsv.gz
@@ -38,6 +40,7 @@ jobs:
       run: |
        cat ./*.txt | sort -u > raw.txt
        python3 ./cleanup.py raw.txt passphrases.txt
+    
     - name: Create Gitbun Release  
       uses: actions/create-release@v1
       env:
@@ -45,11 +48,13 @@ jobs:
       with:
         tag_name: ${{ github.run_number }}
         release_name: ${{ github.run_number }}
-    - name: Upload file to release
-      uses: svenstaro/upload-release-action@v2
+
+    - name: Release
+      uses: softprops/action-gh-release@v1
       with:
-        repo_token: ${{ secrets.GITHUB_TOKEN }}
-        asset_name: passphrases.txt
-        tag: ${{ github.ref }}
-        overwrite: true
-        file: ./passphrases.txt
+        body_path: ${{ env.CHANGELOG_FILE }}
+        append_body: true
+        files: |
+          passphrases.txt
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
