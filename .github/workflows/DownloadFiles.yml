@@ -42,19 +42,10 @@ jobs:
        python3 ./cleanup.py raw.txt passphrases.txt
     
     - name: Create Gitbun Release  
-      uses: actions/create-release@v1
-      env:
-         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN}}
-      with:
-        tag_name: ${{ github.run_number }}
-        release_name: ${{ github.run_number }}
-
-    - name: Release
-      uses: softprops/action-gh-release@v1
-      with:
-        body_path: ${{ env.CHANGELOG_FILE }}
-        append_body: true
-        files: |
-          passphrases.txt
+      uses: xresloader/upload-to-github-release@v1
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        file: "passphrases.txt"
+        tags: true
+        draft: true
