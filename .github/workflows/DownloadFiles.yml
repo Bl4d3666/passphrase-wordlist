@@ -55,7 +55,7 @@ jobs:
         prerelease: true
     - uses: xresloader/upload-to-github-release@main
       env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        GITHUB_TOKEN: ${{ secrets.PAT }}
       with:
         file: "passphrases.txt"
         delete_file: "passphrases.txt"
