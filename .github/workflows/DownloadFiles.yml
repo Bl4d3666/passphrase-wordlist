@@ -75,6 +75,7 @@ jobs:
         path: kym_scrape.py       
     - name: Know Your Meme
       run: |  
+        cat kym_scrape.py
         python3 kym_scrape.py
         mv memes.txt ./know-your-meme-$(date +%Y-%m-%d).txt		
 
