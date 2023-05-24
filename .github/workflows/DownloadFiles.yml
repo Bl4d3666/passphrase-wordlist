@@ -23,8 +23,8 @@ jobs:
     - name: Download Scripts    
       run: |
         mkdir -p scripts
-        wget https://raw.githubusercontent.com/initstring/passphrase-wordlist/master/utilities/cleanup.py
-        wget https://raw.githubusercontent.com/initstring/passphrase-wordlist/master/utilities/kym_scrape.py
+        wget https://raw.githubusercontent.com/initstring/passphrase-wordlist/master/utilities/cleanup.py -O scripts/cleanup.py
+        wget https://raw.githubusercontent.com/initstring/passphrase-wordlist/master/utilities/kym_scrape.py - O scripts/kym_scrape.py
     - uses: actions/upload-artifact@master
       with:
         name: Script-artifact
