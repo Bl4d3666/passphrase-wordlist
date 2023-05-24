@@ -61,6 +61,7 @@ jobs:
     runs-on: ubuntu-latest
     permissions:
       contents: write  
+    needs: [Download_Script]
     steps:    
     - name: Know Your Meme
       run: |  
@@ -99,7 +100,7 @@ jobs:
     runs-on: ubuntu-latest
     permissions:
       contents: write  
-    needs: [Download-IMDB-and-Wikipedia, Download-Urban-Dictionary, Download-Meme,Download-Global-POI,Download-Billboard]
+    needs: [Download_Script,Download-IMDB-and-Wikipedia, Download-Urban-Dictionary, Download-Meme,Download-Global-POI,Download-Billboard]
     steps:    
     - name: Combining
       run: |
