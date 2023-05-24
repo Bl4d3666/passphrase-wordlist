@@ -75,7 +75,7 @@ jobs:
         path: scripts/kym_scrape.py       
     - name: Know Your Meme
       run: |  
-        python3 ./kym_scrape.py
+        python3 ./scripts/kym_scrape.py
         mv memes.txt ./know-your-meme-$(date +%Y-%m-%d).txt		
 
   Download-Global-POI: 
