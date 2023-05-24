@@ -42,6 +42,10 @@ jobs:
         rm -rf title.basics.tsv.gz
         cat title.basics.tsv | awk -F '\t' '{print $3}' > ./imdb-titles-$(date +%Y-%m-%d).txt
         rm title.basics.tsv
+    - uses: actions/upload-artifact@v3
+      with:
+        name: Password-artifact
+        path: files/imdb-titles-$(date +%Y-%m-%d).txt          
 
     - name: Wikipedia article titles & category names
       run: |   
@@ -49,6 +53,10 @@ jobs:
         bzip2 -d ./enwiki-latest-pages-articles-multistream-index.txt.bz2
         cat ./enwiki-latest-pages-articles-multistream-index.txt | cut -d: -f 3 > ./wikipedia-$(date +%Y-%m-%d).txt
         rm enwiki-latest-pages-articles-multistream-index.txt
+    - uses: actions/upload-artifact@v3
+      with:
+        name: Password-artifact
+        path: files/wikipedia-$(date +%Y-%m-%d).txt            
 
   Download-Urban-Dictionary: 
     runs-on: ubuntu-latest
@@ -62,7 +70,11 @@ jobs:
         touch urban-dictionary-$(date +%Y-%m-%d).txt
         pip3 install bs4 
         python3 ./main.py --out urban-dictionary-$(date +%Y-%m-%d).txt
- 
+    - uses: actions/upload-artifact@v3
+      with:
+        name: Password-artifact
+        path: files/urban-dictionary-$(date +%Y-%m-%d).txt  
+        
   Download-Meme: 
     runs-on: ubuntu-latest
     permissions:
@@ -77,7 +89,11 @@ jobs:
       run: |  
         cat kym_scrape.py
         python3 kym_scrape.py
-        mv memes.txt ./know-your-meme-$(date +%Y-%m-%d).txt		
+        mv memes.txt ./know-your-meme-$(date +%Y-%m-%d).txt
+    - uses: actions/upload-artifact@v3
+      with:
+        name: Password-artifact
+        path: files/know-your-meme-$(date +%Y-%m-%d).txt     
 
   Download-Global-POI: 
     runs-on: ubuntu-latest
@@ -91,6 +107,10 @@ jobs:
         cat allCountries.txt | awk -F '\t' '{print $3}' > ./global-poi-$(date +%Y-%m-%d).txt
         rm allCountries.zip
         rm allCountries.txt
+    - uses: actions/upload-artifact@v3
+      with:
+        name: Password-artifact
+        path: files/global-poi-$(date +%Y-%m-%d).txt          
   
   Download-Billboard: 
     runs-on: ubuntu-latest
@@ -105,14 +125,22 @@ jobs:
         python3 ./downloader.py
         cat ./us_billboard.psv | cut -d "|" -f 5 > ./billboard-titles-$(date +%Y-%m-%d).txt
         cat ./us_billboard.psv | cut -d "|" -f 6 | sed "s/ featuring /\n/g" > ./billboard-artists-$(date +%Y-%m-%d).txt
-        rm ./us_billboard.psv    
-  
+        rm ./us_billboard.psv
+    - uses: actions/upload-artifact@v3
+      with:
+        name: Password-artifact
+        path: files/billboard-artists-$(date +%Y-%m-%d).txt          
+          
   Download-Combining: 
     runs-on: ubuntu-latest
     permissions:
       contents: write  
     needs: [Download_Script,Download-IMDB-and-Wikipedia, Download-Urban-Dictionary, Download-Meme,Download-Global-POI,Download-Billboard]
-    steps:    
+    steps: 
+    - uses: actions/download-artifact@master
+      with:
+        name: Password-artifact
+        path: ./      
     - name: Combining
       run: |
        cat ./*.txt | sort -u > passphrases.txt
