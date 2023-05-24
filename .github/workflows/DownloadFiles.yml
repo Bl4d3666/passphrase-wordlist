@@ -61,7 +61,7 @@ jobs:
         rm allCountries.zip
         rm allCountries.txt
   
-    - name: Global POI dataset
+    - name: Billboard Download
       run: | 
         git clone https://github.com/initstring/umdmusic-downloader
         cd umdmusic-downloader
