@@ -72,7 +72,7 @@ jobs:
     - uses: actions/download-artifact@master
       with:
         name: Script-artifact
-        path: kym_scrape.py       
+        path: ./       
     - name: Know Your Meme
       run: |  
         cat kym_scrape.py
