@@ -18,11 +18,17 @@ jobs:
     runs-on: ubuntu-latest
     permissions:
       contents: write        
+    
     steps:    
-    - name: Download Scripts
+    - name: Download Scripts    
       run: |
+        mkdir -p scripts
         wget https://raw.githubusercontent.com/initstring/passphrase-wordlist/master/utilities/cleanup.py
         wget https://raw.githubusercontent.com/initstring/passphrase-wordlist/master/utilities/kym_scrape.py
+    - uses: actions/upload-artifact@master
+      with:
+        name: Script-artifact
+        path: scripts/kym_scrape.py    
   
   Download-IMDB-and-Wikipedia: 
     runs-on: ubuntu-latest
@@ -63,6 +69,10 @@ jobs:
       contents: write  
     needs: [Download_Script]
     steps:    
+    - uses: actions/download-artifact@master
+      with:
+        name: Script-artifact
+        path: scripts/kym_scrape.py       
     - name: Know Your Meme
       run: |  
         python3 ./kym_scrape.py
