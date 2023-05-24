@@ -36,7 +36,7 @@ jobs:
     - name: Wikipedia article titles & category names
       run: |   
         wget https://dumps.wikimedia.org/enwiki/latest/enwiki-latest-pages-articles-multistream-index.txt.bz2
-        gunzip2 ./enwiki-latest-pages-articles-multistream-index.txt.bz2
+        gzip ./enwiki-latest-pages-articles-multistream-index.txt.bz2
         cat ./enwiki-latest-pages-articles-multistream-index.txt | cut -d: -f 3 > ./wikipedia-$(date +%Y-%m-%d).txt
         rm enwiki-latest-pages-articles-multistream-index.txt
         
