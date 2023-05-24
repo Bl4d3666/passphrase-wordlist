@@ -25,11 +25,10 @@ jobs:
         mkdir -p scripts
         wget https://raw.githubusercontent.com/initstring/passphrase-wordlist/master/utilities/cleanup.py -O ./scripts/cleanup.py
         wget https://raw.githubusercontent.com/initstring/passphrase-wordlist/master/utilities/kym_scrape.py -O ./scripts/kym_scrape.py
-        cat ./scripts/kym_scrape.py
-    - uses: actions/upload-artifact@master
+    - uses: actions/upload-artifact@v3
       with:
         name: Script-artifact
-        path: scripts/kym_scrape.py    
+        path: scripts/*.py  
   
   Download-IMDB-and-Wikipedia: 
     runs-on: ubuntu-latest
@@ -73,11 +72,11 @@ jobs:
     - uses: actions/download-artifact@master
       with:
         name: Script-artifact
-        path: scripts/kym_scrape.py       
+        path: kym_scrape.py       
     - name: Know Your Meme
       run: |  
-       cat ./scripts/kym_scrape.py
-        python3 ./scripts/kym_scrape.py
+        cat kym_scrape.py
+        python3 ./kym_scrape.py
         mv memes.txt ./know-your-meme-$(date +%Y-%m-%d).txt		
 
   Download-Global-POI: 
