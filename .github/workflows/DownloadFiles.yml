@@ -32,7 +32,45 @@ jobs:
         rm -rf title.basics.tsv.gz
         cat title.basics.tsv | awk -F '\t' '{print $3}' > ./imdb-titles-$(date +%Y-%m-%d).txt
         rm title.basics.tsv
-   
+
+    - name: Wikipedia article titles & category names
+      run: |   
+        wget https://dumps.wikimedia.org/enwiki/latest/enwiki-latest-pages-articles-multistream-index.txt.bz2
+        gunzip2 ./enwiki-latest-pages-articles-multistream-index.txt.bz2
+        cat ./enwiki-latest-pages-articles-multistream-index.txt | cut -d: -f 3 > ./wikipedia-$(date +%Y-%m-%d).txt
+        rm enwiki-latest-pages-articles-multistream-index.txt
+        
+    - name: Urban Dictionary
+      run: |   
+        git clone https://github.com/initstring/urban-dictionary-word-list
+        cd urban-dictionary-word-list
+        touch urban-dictionary-$(date +%Y-%m-%d).txt
+        pip3 install bs4 
+        python3 ./main.py --out urban-dictionary-$(date +%Y-%m-%d).txt
+        
+    - name: Know Your Meme
+      run: |  
+        python3 ./kym_scrape.py
+        mv memes.txt ./know-your-meme-$(date +%Y-%m-%d).txt		
+
+    - name: Global POI dataset
+      run: | 
+        wget http://download.geonames.org/export/dump/allCountries.zip
+        unzip ./allCountries.zip
+        cat allCountries.txt | awk -F '\t' '{print $3}' > ./global-poi-$(date +%Y-%m-%d).txt
+        rm allCountries.zip
+        rm allCountries.txt
+  
+    - name: Global POI dataset
+      run: | 
+        git clone https://github.com/initstring/umdmusic-downloader
+        cd umdmusic-downloader
+        pip3 install -r ./requirements.txt
+        python3 ./downloader.py
+        cat ./us_billboard.psv | cut -d "|" -f 5 > ./billboard-titles-$(date +%Y-%m-%d).txt
+        cat ./us_billboard.psv | cut -d "|" -f 6 | sed "s/ featuring /\n/g" > ./billboard-artists-$(date +%Y-%m-%d).txt
+        rm ./us_billboard.psv    
+        
     - name: Combining
       run: |
        cat ./*.txt | sort -u > passphrases.txt
