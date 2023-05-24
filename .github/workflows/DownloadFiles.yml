@@ -12,14 +12,13 @@ on:
   pull_request:
     branches: [ "main" ]
 
-permissions:
-  contents: write 
-  
 jobs:
   Download:
     runs-on: ubuntu-latest
-    steps:
+    permissions:
+      contents: write        
     
+    steps:
     - name: Download Scripts
       run: |
         wget https://raw.githubusercontent.com/initstring/passphrase-wordlist/master/utilities/cleanup.py
@@ -36,7 +35,8 @@ jobs:
     - name: Combining
       run: |
        cat ./*.txt | sort -u > passphrases.txt
-       
+
+    
  
     - name: Checkout
       uses: actions/checkout@v3
