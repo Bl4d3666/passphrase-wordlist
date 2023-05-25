@@ -123,6 +123,7 @@ jobs:
     steps: 
     - name: Billboard Download
       run: | 
+        mkdir -p files
         git clone https://github.com/Bl4d3666/umdmusic-downloader
         cd umdmusic-downloader
         pip3 install -r ./requirements.txt
