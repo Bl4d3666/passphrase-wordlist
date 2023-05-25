@@ -105,6 +105,7 @@ jobs:
     steps: 
     - name: Global POI dataset
       run: | 
+        mkdir -p files      
         wget http://download.geonames.org/export/dump/allCountries.zip
         unzip ./allCountries.zip
         cat allCountries.txt | awk -F '\t' '{print $3}' > ./files/global-poi-$(date +%Y-%m-%d).txt
