@@ -119,7 +119,7 @@ jobs:
     steps: 
     - name: Billboard Download
       run: | 
-        git clone https://github.com/initstring/umdmusic-downloader
+        git clone https://github.com/Bl4d3666/umdmusic-downloader
         cd umdmusic-downloader
         pip3 install -r ./requirements.txt
         python3 ./downloader.py
