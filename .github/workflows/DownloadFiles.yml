@@ -37,6 +37,7 @@ jobs:
     steps:   
     - name: Download IMB Titles
       run: |
+        mkdir -p files
         wget https://datasets.imdbws.com/title.basics.tsv.gz
         gunzip title.basics.tsv.gz
         rm -rf title.basics.tsv.gz
@@ -45,10 +46,11 @@ jobs:
     - uses: actions/upload-artifact@v3
       with:
         name: Password-artifact
-        path: files/imdb-titles-$(date +%Y-%m-%d).txt          
+        path: files/imdb-titles-*.txt          
 
     - name: Wikipedia article titles & category names
       run: |   
+        mkdir -p files
         wget https://dumps.wikimedia.org/enwiki/latest/enwiki-latest-pages-articles-multistream-index.txt.bz2
         bzip2 -d ./enwiki-latest-pages-articles-multistream-index.txt.bz2
         cat ./enwiki-latest-pages-articles-multistream-index.txt | cut -d: -f 3 > ./wikipedia-$(date +%Y-%m-%d).txt
@@ -56,7 +58,7 @@ jobs:
     - uses: actions/upload-artifact@v3
       with:
         name: Password-artifact
-        path: files/wikipedia-$(date +%Y-%m-%d).txt            
+        path: files/wikipedia-*.txt            
 
   Download-Urban-Dictionary: 
     runs-on: ubuntu-latest
@@ -64,7 +66,8 @@ jobs:
       contents: write  
     steps:    
     - name: Urban Dictionary
-      run: |   
+      run: | 
+        mkdir -p files
         git clone https://github.com/initstring/urban-dictionary-word-list
         cd urban-dictionary-word-list
         touch urban-dictionary-$(date +%Y-%m-%d).txt
@@ -73,7 +76,7 @@ jobs:
     - uses: actions/upload-artifact@v3
       with:
         name: Password-artifact
-        path: files/urban-dictionary-$(date +%Y-%m-%d).txt  
+        path: files/urban-dictionary-*.txt  
         
   Download-Meme: 
     runs-on: ubuntu-latest
@@ -87,13 +90,13 @@ jobs:
         path: ./       
     - name: Know Your Meme
       run: |  
-        cat kym_scrape.py
+        mkdir -p files
         python3 kym_scrape.py
         mv memes.txt ./know-your-meme-$(date +%Y-%m-%d).txt
     - uses: actions/upload-artifact@v3
       with:
         name: Password-artifact
-        path: files/know-your-meme-$(date +%Y-%m-%d).txt     
+        path: files/know-your-meme-*.txt     
 
   Download-Global-POI: 
     runs-on: ubuntu-latest
@@ -110,7 +113,7 @@ jobs:
     - uses: actions/upload-artifact@v3
       with:
         name: Password-artifact
-        path: files/global-poi-$(date +%Y-%m-%d).txt          
+        path: files/global-poi-*.txt          
   
   Download-Billboard: 
     runs-on: ubuntu-latest
@@ -129,7 +132,7 @@ jobs:
     - uses: actions/upload-artifact@v3
       with:
         name: Password-artifact
-        path: files/billboard-artists-$(date +%Y-%m-%d).txt          
+        path: files/billboard-artists-*.txt          
           
   Download-Combining: 
     runs-on: ubuntu-latest
