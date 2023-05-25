@@ -41,7 +41,7 @@ jobs:
         wget https://datasets.imdbws.com/title.basics.tsv.gz
         gunzip title.basics.tsv.gz
         rm -rf title.basics.tsv.gz
-        cat title.basics.tsv | awk -F '\t' '{print $3}' > ./imdb-titles-$(date +%Y-%m-%d).txt
+        cat title.basics.tsv | awk -F '\t' '{print $3}' > ./files/imdb-titles-$(date +%Y-%m-%d).txt
         rm title.basics.tsv
     - uses: actions/upload-artifact@v3
       with:
@@ -53,7 +53,7 @@ jobs:
         mkdir -p files
         wget https://dumps.wikimedia.org/enwiki/latest/enwiki-latest-pages-articles-multistream-index.txt.bz2
         bzip2 -d ./enwiki-latest-pages-articles-multistream-index.txt.bz2
-        cat ./enwiki-latest-pages-articles-multistream-index.txt | cut -d: -f 3 > ./wikipedia-$(date +%Y-%m-%d).txt
+        cat ./enwiki-latest-pages-articles-multistream-index.txt | cut -d: -f 3 > ./files/wikipedia-$(date +%Y-%m-%d).txt
         rm enwiki-latest-pages-articles-multistream-index.txt
     - uses: actions/upload-artifact@v3
       with:
@@ -72,7 +72,7 @@ jobs:
         cd urban-dictionary-word-list
         touch urban-dictionary-$(date +%Y-%m-%d).txt
         pip3 install bs4 
-        python3 ./main.py --out urban-dictionary-$(date +%Y-%m-%d).txt
+        python3 ./main.py --out ./files/urban-dictionary-$(date +%Y-%m-%d).txt
     - uses: actions/upload-artifact@v3
       with:
         name: Password-artifact
@@ -92,7 +92,7 @@ jobs:
       run: |  
         mkdir -p files
         python3 kym_scrape.py
-        mv memes.txt ./know-your-meme-$(date +%Y-%m-%d).txt
+        mv memes.txt ./files/know-your-meme-$(date +%Y-%m-%d).txt
     - uses: actions/upload-artifact@v3
       with:
         name: Password-artifact
@@ -107,7 +107,7 @@ jobs:
       run: | 
         wget http://download.geonames.org/export/dump/allCountries.zip
         unzip ./allCountries.zip
-        cat allCountries.txt | awk -F '\t' '{print $3}' > ./global-poi-$(date +%Y-%m-%d).txt
+        cat allCountries.txt | awk -F '\t' '{print $3}' > ./files/global-poi-$(date +%Y-%m-%d).txt
         rm allCountries.zip
         rm allCountries.txt
     - uses: actions/upload-artifact@v3
@@ -127,7 +127,7 @@ jobs:
         pip3 install -r ./requirements.txt
         python3 ./downloader.py
         cat ./us_billboard.psv | cut -d "|" -f 5 > ./billboard-titles-$(date +%Y-%m-%d).txt
-        cat ./us_billboard.psv | cut -d "|" -f 6 | sed "s/ featuring /\n/g" > ./billboard-artists-$(date +%Y-%m-%d).txt
+        cat ./us_billboard.psv | cut -d "|" -f 6 | sed "s/ featuring /\n/g" > ./files/billboard-artists-$(date +%Y-%m-%d).txt
         rm ./us_billboard.psv
     - uses: actions/upload-artifact@v3
       with:
