@@ -129,8 +129,7 @@ jobs:
         cd umdmusic-downloader
         pip3 install -r ./requirements.txt
         python3 ./downloader.py
-        cat ./us_billboard.psv | awk -F "|" '{print $5}' > ./files/billboard-titles-$(date +%Y-%m-%d).txt
-        cat ./us_billboard.psv | awk -F "|" '{print $5}' | sed "s/ featuring /\n/g" > ./files/billboard-artists-$(date +%Y-%m-%d).txt
+        python3 ./transform.py
         rm ./us_billboard.psv
     - uses: actions/upload-artifact@v3
       with:
