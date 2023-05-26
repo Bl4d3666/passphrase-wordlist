@@ -125,6 +125,8 @@ jobs:
     - name: Billboard Download
       run: | 
         mkdir -p files
+        touch ./files/billboard-titles-$(date +%Y-%m-%d).txt
+        touch ./files/billboard-artists-$(date +%Y-%m-%d).txt
         git clone https://github.com/Bl4d3666/umdmusic-downloader
         cd umdmusic-downloader
         pip3 install -r ./requirements.txt
