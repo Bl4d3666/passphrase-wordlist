@@ -146,7 +146,11 @@ jobs:
     - uses: actions/download-artifact@master
       with:
         name: Password-artifact
-        path: ./      
+        path: ./ 
+    - uses: actions/download-artifact@master
+      with:
+        name: Script-artifact
+        path: ./              
     - name: Combining
       run: |
        cat ./*.txt | sort -u > passphrases.txt
