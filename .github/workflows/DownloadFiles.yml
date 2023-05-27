@@ -67,9 +67,11 @@ jobs:
         git clone https://github.com/initstring/urban-dictionary-word-list
         cd urban-dictionary-word-list
         touch urban-dictionary-$(date +%Y-%m-%d).txt
+        ls
         pip3 install bs4 
         python3 ./main.py --out urban-dictionary-$(date +%Y-%m-%d).txt
-        mv urban-dictionary-$(date +%Y-%m-%d).txt ./files
+        ls
+        mv urban-dictionary-$(date +%Y-%m-%d).txt ./files/
     - uses: actions/upload-artifact@v3
       with:
         name: Password-artifact
