@@ -87,7 +87,7 @@ jobs:
       contents: write  
     needs: [Download_Script]
     steps:    
-    - uses: actions/download-artifact@master
+    - uses: actions/download-artifact@v3
       with:
         name: Script-artifact
         path: ./scripts/
