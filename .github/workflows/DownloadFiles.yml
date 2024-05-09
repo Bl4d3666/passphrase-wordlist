@@ -90,7 +90,7 @@ jobs:
     - uses: actions/download-artifact@master
       with:
         name: Script-artifact
-        path: ./       
+        path: ./scripts/
     - name: Know Your Meme
       run: |  
         mkdir -p files
