@@ -145,11 +145,11 @@ jobs:
       contents: write  
     needs: [Download_Script,Download-IMDB-and-Wikipedia, Download-Urban-Dictionary, Download-Meme,Download-Global-POI,Download-Billboard]
     steps: 
-    - uses: actions/download-artifact@master
+    - uses: actions/download-artifact@3
       with:
         name: Password-artifact
         path: ./ 
-    - uses: actions/download-artifact@master
+    - uses: actions/download-artifact@v3
       with:
         name: Script-artifact
         path: ./              
